@@ -93,7 +93,23 @@ public class DaemonThread extends Thread {
 			e.printStackTrace();
 		}
 
-		ComputedComposition computedComposition = new ComputedComposition(true);
+		ComputedComposition computedComposition = null; // = new ComputedComposition(true);
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(
+					new DataInputStream(new FileInputStream(baseFilePath
+							+ File.separator + "Composition" + File.separator
+							+ "Composition.txt"))));
+			
+			String fileLine = br.readLine();
+			if (fileLine.equals("non realizzabile"))
+				computedComposition = new ComputedComposition(false);
+			else
+				computedComposition = new ComputedComposition(true);
+
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 		HashMap<String, TargetState> targetStates = new HashMap<String, TargetState>();
 		// Read states from Composition.txt file
